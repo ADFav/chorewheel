@@ -16,6 +16,10 @@ type EagerTask = {
   readonly taskCompletions?: TaskCompletion[] | null;
   readonly defaultAssignee?: HouseholdMember | null;
   readonly nextCompletion?: TaskCompletion | null;
+  readonly title: string;
+  readonly description?: string | null;
+  readonly frequency: number;
+  readonly estimatedLength: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly taskDefaultAssigneeId?: string | null;
@@ -32,6 +36,10 @@ type LazyTask = {
   readonly taskCompletions: AsyncCollection<TaskCompletion>;
   readonly defaultAssignee: AsyncItem<HouseholdMember | undefined>;
   readonly nextCompletion: AsyncItem<TaskCompletion | undefined>;
+  readonly title: string;
+  readonly description?: string | null;
+  readonly frequency: number;
+  readonly estimatedLength: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly taskDefaultAssigneeId?: string | null;
@@ -51,10 +59,12 @@ type EagerTaskCompletion = {
   };
   readonly id: string;
   readonly taskID: string;
-  readonly assignee?: HouseholdMember | null;
+  readonly assignee: HouseholdMember;
+  readonly dueDate: string;
+  readonly completedOn: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly taskCompletionAssigneeId?: string | null;
+  readonly taskCompletionAssigneeId: string;
 }
 
 type LazyTaskCompletion = {
@@ -64,10 +74,12 @@ type LazyTaskCompletion = {
   };
   readonly id: string;
   readonly taskID: string;
-  readonly assignee: AsyncItem<HouseholdMember | undefined>;
+  readonly assignee: AsyncItem<HouseholdMember>;
+  readonly dueDate: string;
+  readonly completedOn: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly taskCompletionAssigneeId?: string | null;
+  readonly taskCompletionAssigneeId: string;
 }
 
 export declare type TaskCompletion = LazyLoading extends LazyLoadingDisabled ? EagerTaskCompletion : LazyTaskCompletion
@@ -82,8 +94,9 @@ type EagerHousehold = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly HouseholdMembers?: (HouseholdMember | null)[] | null;
-  readonly Tasks?: (Task | null)[] | null;
+  readonly HouseholdMembers?: HouseholdMember[] | null;
+  readonly Tasks?: Task[] | null;
+  readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -96,6 +109,7 @@ type LazyHousehold = {
   readonly id: string;
   readonly HouseholdMembers: AsyncCollection<HouseholdMember>;
   readonly Tasks: AsyncCollection<Task>;
+  readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -113,6 +127,8 @@ type EagerHouseholdMember = {
   };
   readonly id: string;
   readonly householdID: string;
+  readonly name: string;
+  readonly userId: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -124,6 +140,8 @@ type LazyHouseholdMember = {
   };
   readonly id: string;
   readonly householdID: string;
+  readonly name: string;
+  readonly userId: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

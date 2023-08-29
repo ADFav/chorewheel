@@ -69,6 +69,34 @@ export const schema = {
                         ]
                     }
                 },
+                "title": {
+                    "name": "title",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "description": {
+                    "name": "description",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "frequency": {
+                    "name": "frequency",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "estimatedLength": {
+                    "name": "estimatedLength",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -157,7 +185,7 @@ export const schema = {
                     "type": {
                         "model": "HouseholdMember"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
                     "association": {
                         "connectionType": "HAS_ONE",
@@ -168,6 +196,20 @@ export const schema = {
                             "taskCompletionAssigneeId"
                         ]
                     }
+                },
+                "dueDate": {
+                    "name": "dueDate",
+                    "isArray": false,
+                    "type": "AWSDate",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "completedOn": {
+                    "name": "completedOn",
+                    "isArray": false,
+                    "type": "AWSDate",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -189,7 +231,7 @@ export const schema = {
                     "name": "taskCompletionAssigneeId",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 }
             },
@@ -243,7 +285,7 @@ export const schema = {
                     "type": {
                         "model": "HouseholdMember"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
@@ -259,7 +301,7 @@ export const schema = {
                     "type": {
                         "model": "Task"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
@@ -268,6 +310,13 @@ export const schema = {
                             "householdID"
                         ]
                     }
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -328,6 +377,20 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "userId": {
+                    "name": "userId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -383,5 +446,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "4a7957ff5bf5090c67a0ce7376ad668a"
+    "version": "0b4b3ccc0a5dec2df87746758eadd4fd"
 };

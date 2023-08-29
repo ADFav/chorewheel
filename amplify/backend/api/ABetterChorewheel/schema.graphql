@@ -1,0 +1,35 @@
+type Task @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  householdID: ID! @index(name: "byHousehold")
+  taskCompletions: [TaskCompletion!]
+    @hasMany(indexName: "byTask", fields: ["id"])
+  defaultAssignee: HouseholdMember @hasOne
+  nextCompletion: TaskCompletion @hasOne
+  title: String!
+  description: String
+  frequency: Int!
+  estimatedLength: Int!
+}
+
+type TaskCompletion @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  taskID: ID! @index(name: "byTask")
+  assignee: HouseholdMember! @hasOne
+  dueDate: AWSDate!
+  completedOn: AWSDate!
+}
+
+type Household @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  HouseholdMembers: [HouseholdMember!]
+    @hasMany(indexName: "byHousehold", fields: ["id"])
+  Tasks: [Task!] @hasMany(indexName: "byHousehold", fields: ["id"])
+  name: String!
+}
+
+type HouseholdMember @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  householdID: ID! @index(name: "byHousehold")
+  name: String!
+  userId: ID!
+}
