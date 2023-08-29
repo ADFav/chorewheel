@@ -10,6 +10,11 @@
       "StackName": "amplify-abetterchorewheel-staging-32356",
       "StackId": "arn:aws:cloudformation:us-east-1:555221742828:stack/amplify-abetterchorewheel-staging-32356/7d37e320-461b-11ee-b34f-0e5c8b84b8ab",
       "AmplifyAppId": "dpiko69o8o9rc"
+    },
+    "categories": {
+      "api": {
+        "ABetterChorewheel": {}
+      }
     }
   }
 }
