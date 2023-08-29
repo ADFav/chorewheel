@@ -1,0 +1,15 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-abetterchorewheel-staging-32356-authRole",
+      "UnauthRoleArn": "arn:aws:iam::555221742828:role/amplify-abetterchorewheel-staging-32356-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::555221742828:role/amplify-abetterchorewheel-staging-32356-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-abetterchorewheel-staging-32356-deployment",
+      "UnauthRoleName": "amplify-abetterchorewheel-staging-32356-unauthRole",
+      "StackName": "amplify-abetterchorewheel-staging-32356",
+      "StackId": "arn:aws:cloudformation:us-east-1:555221742828:stack/amplify-abetterchorewheel-staging-32356/7d37e320-461b-11ee-b34f-0e5c8b84b8ab",
+      "AmplifyAppId": "dpiko69o8o9rc"
+    }
+  }
+}
