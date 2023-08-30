@@ -13,17 +13,21 @@ type Task @model @auth(rules: [{ allow: public }]) {
 
 type TaskCompletion @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  taskID: ID! @index(name: "byTask")
+  taskID: ID! @index(name: "byTask" )
   task: Task! @belongsTo(fields: ["taskID"])
-  assignee: HouseholdMember! @hasOne
-  dueDate: AWSDate!
-  completedOn: AWSDate!
+  assigneeID: ID! @index(name: "byAsignee",  sortKeyFields: ["dueDate"])
+  asignee: HouseholdMember! @belongsTo(fields: ["assigneeID"])
+  householdID: ID! @index(name: "byHousehold", sortKeyFields: ["dueDate"])
+  household: Household! @belongsTo(fields: ["householdID"])
+  dueDate: AWSDate! 
+  completedOn: AWSDate
 }
 
 type Household @model @auth(rules: [{ allow: public }]) {
   id: ID!
   HouseholdMembers: [HouseholdMember!] @hasMany(indexName: "byHousehold", fields: ["id"])
   Tasks: [Task!] @hasMany(indexName: "byHousehold", fields: ["id"])
+  TaskCompletions: [TaskCompletion!] @hasMany(indexName: "byHousehold", fields: ["id"])
   name: String!
 }
 
@@ -31,6 +35,7 @@ type HouseholdMember @model @auth(rules: [{ allow: public }]) {
   id: ID!
   householdID: ID! @index(name: "byHousehold")
   household: Household! @belongsTo(fields: ["householdID"])
+  assignedTasks: [TaskCompletion!] @hasMany(indexName: "byAsignee", fields: ["id"])
   name: String!
   userId: ID!
 }
