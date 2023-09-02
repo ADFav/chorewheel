@@ -17,6 +17,21 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "househould": {
+                    "name": "househould",
+                    "isArray": false,
+                    "type": {
+                        "model": "Household"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "householdID"
+                        ]
+                    }
+                },
                 "taskCompletions": {
                     "name": "taskCompletions",
                     "isArray": true,
@@ -29,7 +44,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "taskID"
+                            "task"
                         ]
                     }
                 },
@@ -179,8 +194,30 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "assignee": {
-                    "name": "assignee",
+                "task": {
+                    "name": "task",
+                    "isArray": false,
+                    "type": {
+                        "model": "Task"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "taskID"
+                        ]
+                    }
+                },
+                "assigneeID": {
+                    "name": "assigneeID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "asignee": {
+                    "name": "asignee",
                     "isArray": false,
                     "type": {
                         "model": "HouseholdMember"
@@ -188,12 +225,31 @@ export const schema = {
                     "isRequired": true,
                     "attributes": [],
                     "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": [
-                            "id"
-                        ],
+                        "connectionType": "BELONGS_TO",
                         "targetNames": [
-                            "taskCompletionAssigneeId"
+                            "assigneeID"
+                        ]
+                    }
+                },
+                "householdID": {
+                    "name": "householdID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "household": {
+                    "name": "household",
+                    "isArray": false,
+                    "type": {
+                        "model": "Household"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "householdID"
                         ]
                     }
                 },
@@ -208,7 +264,7 @@ export const schema = {
                     "name": "completedOn",
                     "isArray": false,
                     "type": "AWSDate",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "createdAt": {
@@ -226,13 +282,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "taskCompletionAssigneeId": {
-                    "name": "taskCompletionAssigneeId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -248,6 +297,26 @@ export const schema = {
                         "name": "byTask",
                         "fields": [
                             "taskID"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byAsignee",
+                        "fields": [
+                            "assigneeID",
+                            "dueDate"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byHousehold",
+                        "fields": [
+                            "householdID",
+                            "dueDate"
                         ]
                     }
                 },
@@ -291,7 +360,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "householdID"
+                            "household"
                         ]
                     }
                 },
@@ -307,7 +376,23 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "householdID"
+                            "househould"
+                        ]
+                    }
+                },
+                "TaskCompletions": {
+                    "name": "TaskCompletions",
+                    "isArray": true,
+                    "type": {
+                        "model": "TaskCompletion"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "household"
                         ]
                     }
                 },
@@ -376,6 +461,37 @@ export const schema = {
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
+                },
+                "household": {
+                    "name": "household",
+                    "isArray": false,
+                    "type": {
+                        "model": "Household"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "householdID"
+                        ]
+                    }
+                },
+                "assignedTasks": {
+                    "name": "assignedTasks",
+                    "isArray": true,
+                    "type": {
+                        "model": "TaskCompletion"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "asignee"
+                        ]
+                    }
                 },
                 "name": {
                     "name": "name",
@@ -446,5 +562,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "0b4b3ccc0a5dec2df87746758eadd4fd"
+    "version": "919d0d3ac9c89e5fba4d4f5cfcac4d3a"
 };

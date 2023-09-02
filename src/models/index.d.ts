@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
 
 
@@ -13,6 +13,7 @@ type EagerTask = {
   };
   readonly id: string;
   readonly householdID: string;
+  readonly househould: Household;
   readonly taskCompletions?: TaskCompletion[] | null;
   readonly defaultAssignee?: HouseholdMember | null;
   readonly nextCompletion?: TaskCompletion | null;
@@ -33,6 +34,7 @@ type LazyTask = {
   };
   readonly id: string;
   readonly householdID: string;
+  readonly househould: AsyncItem<Household>;
   readonly taskCompletions: AsyncCollection<TaskCompletion>;
   readonly defaultAssignee: AsyncItem<HouseholdMember | undefined>;
   readonly nextCompletion: AsyncItem<TaskCompletion | undefined>;
@@ -59,12 +61,15 @@ type EagerTaskCompletion = {
   };
   readonly id: string;
   readonly taskID: string;
-  readonly assignee: HouseholdMember;
+  readonly task: Task;
+  readonly assigneeID: string;
+  readonly asignee: HouseholdMember;
+  readonly householdID: string;
+  readonly household: Household;
   readonly dueDate: string;
-  readonly completedOn: string;
+  readonly completedOn?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly taskCompletionAssigneeId: string;
 }
 
 type LazyTaskCompletion = {
@@ -74,12 +79,15 @@ type LazyTaskCompletion = {
   };
   readonly id: string;
   readonly taskID: string;
-  readonly assignee: AsyncItem<HouseholdMember>;
+  readonly task: AsyncItem<Task>;
+  readonly assigneeID: string;
+  readonly asignee: AsyncItem<HouseholdMember>;
+  readonly householdID: string;
+  readonly household: AsyncItem<Household>;
   readonly dueDate: string;
-  readonly completedOn: string;
+  readonly completedOn?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly taskCompletionAssigneeId: string;
 }
 
 export declare type TaskCompletion = LazyLoading extends LazyLoadingDisabled ? EagerTaskCompletion : LazyTaskCompletion
@@ -96,6 +104,7 @@ type EagerHousehold = {
   readonly id: string;
   readonly HouseholdMembers?: HouseholdMember[] | null;
   readonly Tasks?: Task[] | null;
+  readonly TaskCompletions?: TaskCompletion[] | null;
   readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -109,6 +118,7 @@ type LazyHousehold = {
   readonly id: string;
   readonly HouseholdMembers: AsyncCollection<HouseholdMember>;
   readonly Tasks: AsyncCollection<Task>;
+  readonly TaskCompletions: AsyncCollection<TaskCompletion>;
   readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -127,6 +137,8 @@ type EagerHouseholdMember = {
   };
   readonly id: string;
   readonly householdID: string;
+  readonly household: Household;
+  readonly assignedTasks?: TaskCompletion[] | null;
   readonly name: string;
   readonly userId: string;
   readonly createdAt?: string | null;
@@ -140,6 +152,8 @@ type LazyHouseholdMember = {
   };
   readonly id: string;
   readonly householdID: string;
+  readonly household: AsyncItem<Household>;
+  readonly assignedTasks: AsyncCollection<TaskCompletion>;
   readonly name: string;
   readonly userId: string;
   readonly createdAt?: string | null;
